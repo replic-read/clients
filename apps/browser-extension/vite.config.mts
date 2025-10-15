@@ -21,8 +21,8 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage/apps/browser-extension',
       provider: 'v8' as const,
+      reporter: ['lcov', 'lcovonly', 'text-lcov'],
     },
   },
 }));
