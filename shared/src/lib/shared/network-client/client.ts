@@ -1,12 +1,3 @@
-import {
-  AccountSortParam,
-  AccountStateParam,
-  ReplicSortParam,
-  ReplicStateParam,
-  ReportSortParam,
-  ReportStateParam,
-  SortDirection
-} from './enums';
 import { Observable } from 'rxjs';
 import {
   AccountResponse,
@@ -30,6 +21,15 @@ import {
 } from './requests';
 import { inject, InjectionToken } from '@angular/core';
 import { NetworkClientImpl } from './internal/client';
+import {
+  AccountSort,
+  AccountState,
+  ReplicSort,
+  ReplicState,
+  ReportSort,
+  ReportState,
+  SortDirection
+} from '../model/enums';
 
 /**
  * Provides access to all the endpoints of the api.
@@ -42,16 +42,16 @@ export interface NetworkClient {
   /**
    * Request to PUT /api/v1/replics/{id}/
    */
-  updateReplicState: (id: string, state: ReplicStateParam) => Observable<void>;
+  updateReplicState: (id: string, state: ReplicState) => Observable<void>;
 
   /**
    * Request to GET /api/v1/replics/
    */
   getReplics: (
-    sort: ReplicSortParam | null,
+    sort: ReplicSort | null,
     direction: SortDirection | null,
     user: string | null,
-    filter: ReplicStateParam[] | null,
+    filter: ReplicState[] | null,
     query: string | null
   ) => Observable<ReplicResponse[]>;
 
@@ -86,7 +86,7 @@ export interface NetworkClient {
    * Request to GET /api/v1/accounts/partial/
    */
   getAccountsPartial: (
-    sort: AccountSortParam | null,
+    sort: AccountSort | null,
     direction: SortDirection | null,
     accountId: string | null,
     query: string | null
@@ -96,10 +96,10 @@ export interface NetworkClient {
    * Request to GET /api/v1/accounts/full/
    */
   getAccountsFull: (
-    sort: AccountSortParam | null,
+    sort: AccountSort | null,
     direction: SortDirection | null,
     accountId: string | null,
-    filter: AccountStateParam[],
+    filter: AccountState[],
     query: string | null
   ) => Observable<AccountResponse[]>;
 
@@ -135,14 +135,14 @@ export interface NetworkClient {
    */
   updateReportStatus: (
     id: string,
-    state: ReportStateParam
+    state: ReportState
   ) => Observable<ReportResponse>;
 
   /**
    * Request to GET /api/v1/reports/
    */
   getReports: (
-    sort: ReportSortParam | null,
+    sort: ReportSort | null,
     direction: SortDirection | null,
     reportId: string | null,
     query: string | null

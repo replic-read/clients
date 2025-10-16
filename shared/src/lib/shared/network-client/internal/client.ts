@@ -1,12 +1,3 @@
-import {
-  AccountSortParam,
-  AccountStateParam,
-  ReplicSortParam,
-  ReplicStateParam,
-  ReportSortParam,
-  ReportStateParam,
-  SortDirection,
-} from '../enums';
 import { Observable } from 'rxjs';
 import {
   AccountResponse,
@@ -32,6 +23,15 @@ import { NetworkClient } from '../client';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BaseUrlSupplier_Token } from '../BaseUrlSupplier';
+import {
+  AccountSort,
+  AccountState,
+  ReplicSort,
+  ReplicState,
+  ReportSort,
+  ReportState,
+  SortDirection,
+} from '../../model/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -95,10 +95,10 @@ export class NetworkClientImpl implements NetworkClient {
   }
 
   getAccountsFull(
-    sort: AccountSortParam | null,
+    sort: AccountSort | null,
     direction: SortDirection | null,
     accountId: string | null,
-    filter: AccountStateParam[],
+    filter: AccountState[],
     query: string | null
   ): Observable<AccountResponse[]> {
     return this.get(
@@ -114,7 +114,7 @@ export class NetworkClientImpl implements NetworkClient {
   }
 
   getAccountsPartial(
-    sort: AccountSortParam | null,
+    sort: AccountSort | null,
     direction: SortDirection | null,
     accountId: string | null,
     query: string | null
@@ -146,10 +146,10 @@ export class NetworkClientImpl implements NetworkClient {
   }
 
   getReplics(
-    sort: ReplicSortParam | null,
+    sort: ReplicSort | null,
     direction: SortDirection | null,
     user: string | null,
-    filter: ReplicStateParam[] | null,
+    filter: ReplicState[] | null,
     query: string | null
   ): Observable<ReplicResponse[]> {
     return this.get(
@@ -165,7 +165,7 @@ export class NetworkClientImpl implements NetworkClient {
   }
 
   getReports(
-    sort: ReportSortParam | null,
+    sort: ReportSort | null,
     direction: SortDirection | null,
     reportId: string | null,
     query: string | null
@@ -242,13 +242,13 @@ export class NetworkClientImpl implements NetworkClient {
     return this.post('/me/', body);
   }
 
-  updateReplicState(id: string, state: ReplicStateParam): Observable<void> {
+  updateReplicState(id: string, state: ReplicState): Observable<void> {
     return this.put(`/replics/${id}/`, {}, { state: state });
   }
 
   updateReportStatus(
     id: string,
-    state: ReportStateParam
+    state: ReportState
   ): Observable<ReportResponse> {
     return this.put(`/reports/${id}/`, {}, { state: state });
   }
