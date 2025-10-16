@@ -1,0 +1,28 @@
+name: Build and lint
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-build-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build
+        uses: mansagroup/nrwl-nx-action@v3
+        with:
+          targets: build
+          all: true
+
+      - name: Setup npm
+        uses: actions/setup-node@v6
+
+      - name: Run sonar analysis
+        run: npx sonar-scanner -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ secrets.SONAR_HOST }}
