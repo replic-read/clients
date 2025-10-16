@@ -6,9 +6,9 @@ import {
 } from '../model/enums';
 
 export type PartialAccountResponse = {
+  account_id: string;
   username: string;
   profile_color: number;
-  account_state: AccountState;
 };
 
 export type QuotaProgressResponse = {
