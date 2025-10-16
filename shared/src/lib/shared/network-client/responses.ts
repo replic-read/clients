@@ -20,7 +20,7 @@ export type AccountResponse = {
   created_timestamp: string;
   email: string;
   username: string;
-  profile_color: string;
+  profile_color: number;
   account_state: AccountState;
 };
 

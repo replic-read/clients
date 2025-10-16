@@ -186,7 +186,7 @@ export class NetworkClientImpl implements NetworkClient {
   }
 
   login(body: CredentialsRequest): Observable<AccountWithTokensResponse> {
-    return this.post('/auth/signup/', body);
+    return this.post('/auth/login/', body);
   }
 
   logout(token: string | null, all: boolean | null): Observable<void> {
