@@ -37,6 +37,13 @@
       "e2eTestRunner": "none",
       "linter": "eslint",
       "style": "css"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "none"
+    },
+    "@nx/angular:component": {
+      "style": "css"
     }
   }
 }

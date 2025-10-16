@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@replic-read-clients/shared": [
+        "shared/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
