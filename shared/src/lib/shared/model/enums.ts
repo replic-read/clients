@@ -50,3 +50,9 @@ export enum SortDirection {
   ASCENDING = 'ascending',
   DESCENDING = 'descending',
 }
+
+export enum PeriodUnit {
+  DAY,
+  MONTH,
+  YEAR,
+}
