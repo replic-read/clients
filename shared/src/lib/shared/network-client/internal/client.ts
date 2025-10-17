@@ -32,6 +32,7 @@ import {
   ReportState,
   SortDirection,
 } from '../../model/enums';
+import { AuthTokenAccessor_Token } from '../AuthTokenAccessor';
 
 @Injectable({
   providedIn: 'root',
@@ -48,10 +49,9 @@ export class NetworkClientImpl implements NetworkClient {
   private readonly baseUrlSupplier = inject(BaseUrlSupplier_Token);
 
   /**
-   * The current access-token.
-   * @private
+   * The accessor to the auth tokens.
    */
-  private token: string | null = null;
+  private readonly authTokenAccessor = inject(AuthTokenAccessor_Token);
 
   post = <T>(
     relativePath: string,
@@ -253,10 +253,6 @@ export class NetworkClientImpl implements NetworkClient {
     return this.put(`/reports/${id}/`, {}, { state: state });
   }
 
-  setToken(token: string | null): void {
-    this.token = token;
-  }
-
   shutdown(): Observable<void> {
     return this.post('/admin/shutdown/', {});
   }
@@ -271,7 +267,7 @@ export class NetworkClientImpl implements NetworkClient {
    * Gets the auth header.
    */
   private readonly getDefaultHeaders = (): Record<string, string> => ({
-    Authorization: `Bearer ${this.token}`,
+    Authorization: `Bearer ${this.authTokenAccessor.getAccess()}`,
     'Content-Type': 'application/json',
   });
 }

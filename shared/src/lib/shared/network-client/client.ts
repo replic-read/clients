@@ -36,10 +36,6 @@ import {
  */
 export interface NetworkClient {
   /**
-   * Sets the access-token that is used for authentication.
-   */
-  setToken: (token: string | null) => void;
-  /**
    * Request to PUT /api/v1/replics/{id}/
    */
   updateReplicState: (id: string, state: ReplicState) => Observable<void>;
