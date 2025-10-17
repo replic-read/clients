@@ -1,1 +1,6 @@
-type RereError = 'connection' | 'timeout' | 'permission' | 'authentication';
+export type RereError =
+  | 'connection'
+  | 'timeout'
+  | 'permission'
+  | 'authentication'
+  | 'unknown';
