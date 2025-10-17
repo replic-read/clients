@@ -1,14 +1,14 @@
 import {
-  AccountStateParam,
-  AuthUserParam,
-  MediaModeParam,
-  ReplicStateParam,
-} from './enums';
+  AccountState,
+  AuthUserGroup,
+  MediaMode,
+  ReplicState,
+} from '../model/enums';
 
 export type PartialAccountResponse = {
+  account_id: string;
   username: string;
   profile_color: number;
-  account_state: AccountStateParam;
 };
 
 export type QuotaProgressResponse = {
@@ -20,8 +20,8 @@ export type AccountResponse = {
   created_timestamp: string;
   email: string;
   username: string;
-  profile_color: string;
-  account_state: AccountStateParam;
+  profile_color: number;
+  account_state: AccountState;
 };
 
 export type AccountWithTokensResponse = {
@@ -34,13 +34,13 @@ export type ReplicResponse = {
   id: string;
   created_timestamp: string;
   description: string | null;
-  replic_state: ReplicStateParam;
+  replic_state: ReplicState;
   original_url: string;
   size: number;
   host_url: string;
   expiration: string | null;
   author_id: string | null;
-  media_mode: MediaModeParam;
+  media_mode: MediaMode;
   has_password: boolean;
 };
 
@@ -52,9 +52,9 @@ export type ReportResponse = {
 };
 
 export type ServerConfigResponse = {
-  create_replic_group: AuthUserParam;
-  access_replic_group: AuthUserParam;
-  create_report_group: AuthUserParam;
+  create_replic_group: AuthUserGroup;
+  access_replic_group: AuthUserGroup;
+  create_report_group: AuthUserGroup;
   maximum_expiration_period: string | null;
   replic_limit_period: string | null;
   replic_limit_count: number | null;

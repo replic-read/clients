@@ -1,9 +1,9 @@
-import { AuthUserParam, MediaModeParam } from './enums';
+import { AuthUserGroup, MediaMode } from '../model/enums';
 
 export type ServerConfigRequest = {
-  create_replic_group: AuthUserParam;
-  access_replic_group: AuthUserParam;
-  create_report_group: AuthUserParam;
+  create_replic_group: AuthUserGroup;
+  access_replic_group: AuthUserGroup;
+  create_report_group: AuthUserGroup;
   maximum_expiration_period: string | null;
   replic_limit_period: string | null;
   replic_limit_count: number | null;
@@ -16,7 +16,7 @@ export type CreateReportRequest = {
 
 export type CreateReplicRequest = {
   original_url: string;
-  media_mode: MediaModeParam;
+  media_mode: MediaMode;
   expiration: string | null;
   description: string | null;
   password: string | null;
