@@ -151,7 +151,7 @@ export class NetworkAuthenticationService implements AuthenticationService {
  * and error emissions to error responses using the errorConv converter.
  * @param errConv Converts unknown errors to a specified type.
  */
-function toMaybe<V, E>(
+export function toMaybe<V, E>(
   errConv: (err: unknown) => Observable<Maybe<V, E>>
 ): UnaryFunction<Observable<V>, Observable<Maybe<V, E>>> {
   return pipe(map(maybeYes<V, E>), catchError(errConv));
