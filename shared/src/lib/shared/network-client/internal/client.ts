@@ -6,7 +6,7 @@ import {
   QuotaProgressResponse,
   ReplicResponse,
   ReportResponse,
-  ServerConfigResponse
+  ServerConfigResponse,
 } from '../responses';
 import {
   CreateAccountRequest,
@@ -17,7 +17,7 @@ import {
   ResetPasswordRequest,
   ServerConfigRequest,
   SubmitEmailVerificationRequest,
-  UpdateAccountRequest
+  UpdateAccountRequest,
 } from '../requests';
 import { NetworkClient } from '../client';
 import { HttpClient } from '@angular/common/http';
@@ -30,7 +30,7 @@ import {
   ReplicState,
   ReportSort,
   ReportState,
-  SortDirection
+  SortDirection,
 } from '../../model/enums';
 import { AuthTokenAccessor_Token } from '../AuthTokenAccessor';
 
@@ -210,7 +210,7 @@ export class NetworkClientImpl implements NetworkClient {
 
     form.set('file', new Blob([content], { type: 'text/html' }));
 
-    return this;.post('/replics/', form);
+    return this.post('/replics/', form);
   }
 
   postReport(

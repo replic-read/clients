@@ -1,7 +1,12 @@
 import { Component, inject, Injectable, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NxWelcome } from './nx-welcome';
-import { AuthTokenAccessor, BaseUrlSupplier, MediaMode, ReplicService_Token } from '@replic-read-clients/shared';
+import {
+  AuthTokenAccessor,
+  BaseUrlSupplier,
+  MediaMode,
+  ReplicService_Token,
+} from '@replic-read-clients/shared';
 
 @Injectable()
 export class BrowserBaseUrlSupplier implements BaseUrlSupplier {
@@ -53,7 +58,7 @@ export class App implements OnInit {
       )
       .subscribe((res) => {
         if (res.isYes()) {
-          console;.log(
+          console.log(
             `Got successful replic data: ${JSON.stringify(res.yes())}`
           );
         } else {
