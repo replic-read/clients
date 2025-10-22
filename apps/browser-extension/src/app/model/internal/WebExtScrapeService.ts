@@ -1,14 +1,14 @@
-/// <reference types="firefox-webext-browser"/>
+import browser from 'webextension-polyfill';
 import { Injectable } from '@angular/core';
 import { ScrapeService } from '../ScrapeService';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FirefoxScrapeService extends ScrapeService {
+export class WebExtScrapeService extends ScrapeService {
   protected async getCurrentTabContent(): Promise<string> {
     const injectionResults = await this.getWithInjectedScript();
-    return injectionResults[0].result ?? '';
+    return (injectionResults[0].result as string) ?? '';
   }
 
   private async getWithInjectedScript() {
