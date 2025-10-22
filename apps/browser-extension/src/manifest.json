@@ -1,0 +1,16 @@
+{
+  "name": "Replic-Read",
+  "description": "Browser extension that allows to create replics.",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "icons": {
+    "48": "icon.svg"
+  }
+}

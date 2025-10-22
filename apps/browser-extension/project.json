@@ -19,6 +19,7 @@
         ],
         "tsConfig": "apps/browser-extension/tsconfig.app.json",
         "assets": [
+          "apps/browser-extension/src/manifest.json",
           {
             "glob": "**/*",
             "input": "apps/browser-extension/public"
