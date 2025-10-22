@@ -3,7 +3,11 @@ import { BaseUrlSupplier } from '@replic-read-clients/shared';
 import { Config } from '../Config';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import browser from 'webextension-polyfill';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
   private static readonly KEY_BACKEND_URL =
     'com.rere.client.active.key.backend_url';

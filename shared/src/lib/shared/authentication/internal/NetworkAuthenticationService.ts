@@ -59,12 +59,14 @@ export class NetworkAuthenticationService implements AuthenticationService {
   }
 
   me(): Observable<Maybe<Account, RereError>> {
-    return this.api
-      .getMe()
-      .pipe(
-        map(convertAccountResponse),
-        toMaybe<Account, RereError>(convertError)
-      );
+    const call = () =>
+      this.api
+        .getMe()
+        .pipe(
+          map(convertAccountResponse),
+          toMaybe<Account, RereError>(convertError)
+        );
+    return this.safe(call);
   }
 
   refresh(): Observable<Maybe<Account, RereError>> {
