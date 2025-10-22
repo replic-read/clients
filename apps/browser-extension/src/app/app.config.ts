@@ -7,7 +7,8 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { BaseUrlSupplier_Token } from '@replic-read-clients/shared';
-import { BrowserBaseUrlSupplier } from './app';
+import { BrowserBaseUrlSupplier, LocalStorageAuthTokenAccessor } from './app';
+import { AuthTokenAccessor_Token } from '../../../../shared/src/lib/shared/network-client/AuthTokenAccessor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: BaseUrlSupplier_Token,
       useClass: BrowserBaseUrlSupplier,
+    },
+    {
+      provide: AuthTokenAccessor_Token,
+      useClass: LocalStorageAuthTokenAccessor,
     },
   ],
 };

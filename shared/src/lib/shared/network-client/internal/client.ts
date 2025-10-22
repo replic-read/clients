@@ -98,7 +98,7 @@ export class NetworkClientImpl implements NetworkClient {
     sort: AccountSort | null,
     direction: SortDirection | null,
     accountId: string | null,
-    filter: AccountState[],
+    filter: AccountState[] | null,
     query: string | null
   ): Observable<AccountResponse[]> {
     return this.get(
@@ -197,8 +197,20 @@ export class NetworkClientImpl implements NetworkClient {
     );
   }
 
-  postReplic(body: CreateReplicRequest): Observable<ReplicResponse> {
-    return this.post('/replics/', body);
+  postReplic(
+    body: CreateReplicRequest,
+    content: string
+  ): Observable<ReplicResponse> {
+    const form = new FormData();
+
+    form.set(
+      'request_body',
+      new Blob([JSON.stringify(body)], { type: 'application/json' })
+    );
+
+    form.set('file', new Blob([content], { type: 'text/html' }));
+
+    return this.post('/replics/', form);
   }
 
   postReport(
