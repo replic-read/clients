@@ -49,6 +49,7 @@ export type ReportResponse = {
   created_timestamp: string;
   user_id: string | null;
   replic_id: string;
+  description: string;
 };
 
 export type ServerConfigResponse = {

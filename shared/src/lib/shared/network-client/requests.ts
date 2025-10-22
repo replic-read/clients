@@ -25,7 +25,7 @@ export type CreateReplicRequest = {
 export type UpdateAccountRequest = {
   email: string;
   username: string;
-  profile_color: string;
+  profile_color: number;
 };
 
 export type CreateAccountRequest = {
