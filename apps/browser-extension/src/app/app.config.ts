@@ -4,17 +4,19 @@ import {
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { appRoutes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { BaseUrlSupplier_Token } from '@replic-read-clients/shared';
+import {
+  AuthTokenAccessor_Token,
+  BaseUrlSupplier_Token,
+} from '@replic-read-clients/shared';
 import { BrowserBaseUrlSupplier, LocalStorageAuthTokenAccessor } from './app';
-import { AuthTokenAccessor_Token } from '../../../../shared/src/lib/shared/network-client/AuthTokenAccessor';
+import { routes } from '../navigation/routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(appRoutes),
+    provideRouter(routes),
     provideHttpClient(),
     {
       provide: BaseUrlSupplier_Token,
