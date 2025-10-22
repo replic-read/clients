@@ -1,11 +1,8 @@
-import { Component, inject, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
 import {
   AuthTokenAccessor,
   BaseUrlSupplier,
-  MediaMode,
-  ReplicService_Token,
 } from '@replic-read-clients/shared';
 
 @Injectable()
@@ -35,35 +32,11 @@ export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
 }
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [RouterModule],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App implements OnInit {
+export class App {
   protected title = 'browser-extension';
-  private readonly accService = inject(ReplicService_Token);
-
-  ngOnInit() {
-    const htmlContent = '<h1>Idiots!</h1>';
-
-    this.accService
-      .createReplic(
-        htmlContent,
-        'https://google.com/',
-        MediaMode.NONE,
-        null,
-        null,
-        null
-      )
-      .subscribe((res) => {
-        if (res.isYes()) {
-          console.log(
-            `Got successful replic data: ${JSON.stringify(res.yes())}`
-          );
-        } else {
-          console.log(`Got replic error: ${JSON.stringify(res.no())}`);
-        }
-      });
-  }
 }
