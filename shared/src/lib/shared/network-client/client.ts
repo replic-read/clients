@@ -54,7 +54,10 @@ export interface NetworkClient {
   /**
    * Request to POST /replics/
    */
-  postReplic: (body: CreateReplicRequest) => Observable<ReplicResponse>;
+  postReplic: (
+    body: CreateReplicRequest,
+    content: string
+  ) => Observable<ReplicResponse>;
 
   /**
    * Request to GET /api/v1/replics/{id}/content/
@@ -95,7 +98,7 @@ export interface NetworkClient {
     sort: AccountSort | null,
     direction: SortDirection | null,
     accountId: string | null,
-    filter: AccountState[],
+    filter: AccountState[] | null,
     query: string | null
   ) => Observable<AccountResponse[]>;
 
