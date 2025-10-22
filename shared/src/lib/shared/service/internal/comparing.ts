@@ -94,7 +94,7 @@ export function replicComparator(
           getFactor(direction)
         );
       case ReplicSort.DATE:
-        return 0; // TODO: Implement this. We need access to the creation date on the replic DTO.
+        return 0; // Implement this. We need access to the creation date on the replic DTO.
       case ReplicSort.SIZE:
         return compareNumbers(first.size, second.size);
       case ReplicSort.EXPIRATION:

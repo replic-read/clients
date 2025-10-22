@@ -1,15 +1,31 @@
 import { Component, inject, Injectable, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NxWelcome } from './nx-welcome';
-import {
-  BaseUrlSupplier,
-  NetworkClient_Token,
-} from '@replic-read-clients/shared';
+import { AuthTokenAccessor, BaseUrlSupplier, MediaMode, ReplicService_Token } from '@replic-read-clients/shared';
 
 @Injectable()
 export class BrowserBaseUrlSupplier implements BaseUrlSupplier {
   supply(): string {
     return 'http://localhost:8080';
+  }
+}
+
+@Injectable()
+export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
+  getAccess(): string | null {
+    return localStorage.getItem('access');
+  }
+
+  getRefresh(): string | null {
+    return localStorage.getItem('refresh');
+  }
+
+  setAccess(access: string): void {
+    return localStorage.setItem('access', access);
+  }
+
+  setRefresh(refresh: string): void {
+    return localStorage.setItem('refresh', refresh);
   }
 }
 
@@ -21,19 +37,28 @@ export class BrowserBaseUrlSupplier implements BaseUrlSupplier {
 })
 export class App implements OnInit {
   protected title = 'browser-extension';
-  private readonly client = inject(NetworkClient_Token);
+  private readonly accService = inject(ReplicService_Token);
 
   ngOnInit() {
-    console.log(`Hello there!`);
-    this.client
-      .signup({
-        email: 'simon2@bumiller.me',
-        password: 'Anthony!2404',
-        profile_color: 0,
-        username: 'sim2on123',
-      })
-      .subscribe((response) =>
-        console.log(`Got response: ${JSON.stringify(response)}`)
-      );
+    const htmlContent = '<h1>Idiots!</h1>';
+
+    this.accService
+      .createReplic(
+        htmlContent,
+        'https://google.com/',
+        MediaMode.NONE,
+        null,
+        null,
+        null
+      )
+      .subscribe((res) => {
+        if (res.isYes()) {
+          console;.log(
+            `Got successful replic data: ${JSON.stringify(res.yes())}`
+          );
+        } else {
+          console.log(`Got replic error: ${JSON.stringify(res.no())}`);
+        }
+      });
   }
 }

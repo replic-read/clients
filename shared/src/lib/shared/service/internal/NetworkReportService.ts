@@ -102,7 +102,7 @@ export class NetworkReportService implements ReportService {
     populatedReports$.subscribe((reports) => this.reports$.next(reports));
   }
 
-  private populateReportResponse = (
+  private readonly populateReportResponse = (
     res: ReportResponse
   ): Observable<Report> => {
     const replic$ = this.replicService.getReplic(res.replic_id);
