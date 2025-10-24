@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { SetEndpointViewModel } from '../components/set_endpoint/set_endpoint';
 import { SignupViewModel } from '../components/signup/SignupViewModel';
-import { LoginViewModel } from '../components/login/LoginViewModel';
+import { LoginViewModel } from '../components/login/login';
 import { NotVerifiedViewModel } from '../components/not_verified/NotVerifiedViewModel';
 import { CreateReplicViewModel } from '../components/create_replic/CreateReplicViewModel';
 import { ReplicCreatedViewModel } from '../components/replic_created/ReplicCreatedViewModel';
