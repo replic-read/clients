@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  inject,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import {
 import { LocalStorageAuthTokenAccessor } from './app';
 import { routes } from '../navigation/routes';
 import { provideTranslateService } from '@ngx-translate/core';
+import { WebExtConfigService } from '../model/internal/WebExtConfigService';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     }),
     {
       provide: BaseUrlSupplier_Token,
-      useClass: WebExtConfigServic,
+      useFactory: () => inject(WebExtConfigService),
     },
     {
       provide: AuthTokenAccessor_Token,
