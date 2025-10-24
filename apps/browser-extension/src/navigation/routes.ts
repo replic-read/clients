@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { SetEndpointViewModel } from '../components/set_endpoint/SetEndpointViewModel';
+import { SetEndpointViewModel } from '../components/set_endpoint/set_endpoint';
 import { SignupViewModel } from '../components/signup/SignupViewModel';
 import { LoginViewModel } from '../components/login/LoginViewModel';
 import { NotVerifiedViewModel } from '../components/not_verified/NotVerifiedViewModel';
