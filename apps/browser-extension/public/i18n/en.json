@@ -1,5 +1,6 @@
 {
   "validation": {
+    "credentials": "The provided credentials are invalid.",
     "format": {
       "url": "The endpoint must be a valid url."
     }
@@ -29,6 +30,24 @@
       "initial": "In order to save your replics and your account information, you need to connect to a server. Enter below the URL of the endpoint you want to connect to.",
       "change_noauth": "Change the endpoint of the server you want to connect to.",
       "change_auth": "Change the endpoint of the server you want to connect to. Your data from this account will be saved, but not reachable until you change the endpoint back to the current one."
+    }
+  },
+  "login": {
+    "title": "Login",
+    "description": "Log into your existing account to save the replics you create.",
+    "identifier": {
+      "label": "Username or email"
+    },
+    "password": {
+      "label": "Password"
+    },
+    "confirm": {
+      "label": "Log in"
+    },
+    "signup_link": {
+      "pre": "Need to create an account first? ",
+      "mid": "Sign up",
+      "post": "."
     }
   }
 }
