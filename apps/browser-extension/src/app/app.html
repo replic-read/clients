@@ -1,1 +1,34 @@
-<router-outlet></router-outlet>
+<main>
+  <nav>
+    @if (isBackButton()) {
+      <button matIconButton id="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    } @else {
+      <div></div>
+    }
+
+    <picture id="text-logo">
+      <source media="(prefers-color-scheme: dark)" srcset="/text-logo-dark.svg">
+      <img alt="{{'navigation.logo.alt' | translate}}" height="26" ngSrc="/text-logo-light.svg" width="137">
+    </picture>
+
+    @if (account()) {
+      <re-profile-circle [colorInt]="account()!.profileColor" />
+    } @else {
+      <div></div>
+    }
+
+  </nav>
+
+  <div id="router-content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <footer>
+    @if (endpoint) {
+      <p>{{ 'footer.endpoint' | translate:{ endpoint } }}</p>
+    }
+    <p>{{ 'footer.about' | translate }}</p>
+  </footer>
+</main>

@@ -9,8 +9,9 @@ import {
   AuthTokenAccessor_Token,
   BaseUrlSupplier_Token,
 } from '@replic-read-clients/shared';
-import { BrowserBaseUrlSupplier, LocalStorageAuthTokenAccessor } from './app';
+import { LocalStorageAuthTokenAccessor } from './app';
 import { routes } from '../navigation/routes';
+import { provideTranslateService } from '@ngx-translate/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,9 +19,13 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
+    provideTranslateService({
+      fallbackLang: 'en',
+      lang: 'en',
+    }),
     {
       provide: BaseUrlSupplier_Token,
-      useClass: BrowserBaseUrlSupplier,
+      useClass: WebExtConfigServic,
     },
     {
       provide: AuthTokenAccessor_Token,
