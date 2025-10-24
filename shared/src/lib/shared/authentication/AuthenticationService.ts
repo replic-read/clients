@@ -60,6 +60,11 @@ export interface AuthenticationService {
   me(): Observable<Maybe<Account, RereError>>;
 
   /**
+   * Logs out of the current account.
+   */
+  logout(): Observable<Maybe<void, RereError>>;
+
+  /**
    * Makes a safe authentication call.
    * @param call The secured call.
    */

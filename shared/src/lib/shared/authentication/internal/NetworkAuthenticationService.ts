@@ -116,6 +116,15 @@ export class NetworkAuthenticationService implements AuthenticationService {
       .pipe(toMaybe<void, RereError>(convertError));
   }
 
+  logout(): Observable<Maybe<void, RereError>> {
+    const refresh = this.authTokenAccessor.getRefresh();
+    this.authTokenAccessor.setRefresh('');
+    this.authTokenAccessor.setAccess('');
+    return this.api
+      .logout(refresh, false)
+      .pipe(toMaybe<void, RereError>(convertError));
+  }
+
   safe<T>(call: () => Observable<T>): Observable<T> {
     return call().pipe(
       catchError((err) => {

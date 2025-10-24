@@ -8,6 +8,9 @@ import { NetworkClient_Token } from '../../network-client/client';
 import { ServerConfigRequest } from '../../network-client/requests';
 import { Duration } from 'luxon';
 import { convertConfig } from './mapping';
+import { convertError } from '../../authentication/internal/mapping';
+import { RereError } from '@replic-read-clients/shared';
+import { toMaybe } from '../../authentication/internal/NetworkAuthenticationService';
 
 @Injectable({
   providedIn: 'root',
@@ -41,10 +44,17 @@ export class NetworkServerConfigService implements ServerConfigService {
 
   refresh(onDone: () => void) {
     const configCall = () =>
-      this.api.getServerConfig().pipe(map(convertConfig));
+      this.api
+        .getServerConfig()
+        .pipe(
+          map(convertConfig),
+          toMaybe<ServerConfig, RereError>(convertError)
+        );
 
-    this.auth.safe(configCall).subscribe((config) => {
-      this.config$.next(config);
+    this.auth.safe(configCall).subscribe((maybe) => {
+      if (maybe.isYes()) {
+        this.config$.next(maybe.yes());
+      }
       onDone();
     });
   }
@@ -137,6 +147,8 @@ export class NetworkServerConfigService implements ServerConfigService {
           map(() => true),
           catchError(() => of(false))
         );
+
+    this.refresh(() => {});
 
     return this.auth.safe(configCall);
   }

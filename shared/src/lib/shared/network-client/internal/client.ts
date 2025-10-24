@@ -273,7 +273,9 @@ export class NetworkClientImpl implements NetworkClient {
    * Function that creates a full url with a partial url.
    */
   private readonly url = (relativePath: string) =>
-    `${this.baseUrlSupplier.supply()}/api/v1${relativePath}`;
+    `${
+      this.baseUrlSupplier.supply() ?? 'http://localhost:1'
+    }/api/v1${relativePath}`;
 
   /**
    * Gets the auth header.
