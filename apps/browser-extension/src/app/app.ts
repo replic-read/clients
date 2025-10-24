@@ -8,7 +8,7 @@ import {
   AuthUserGroup,
   RereError,
   ServerConfig,
-  ServerConfigService_Token
+  ServerConfigService_Token,
 } from '@replic-read-clients/shared';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import translationEN from '../../public/i18n/en.json';
@@ -51,7 +51,7 @@ export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
   ],
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.scss,
+  styleUrl: './app.scss'
 })
 export class App implements OnInit {
   protected title = 'browser-extension';
