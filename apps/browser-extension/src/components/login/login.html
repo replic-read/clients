@@ -28,6 +28,8 @@
 
   <button class="form-field" matButton="filled" (click)="login()">{{ 'login.confirm.label' | translate }}</button>
 
-  <p>{{ 'login.signup_link.pre'|translate }}<a
-    routerLink="/signup">{{ 'login.signup_link.mid'|translate }}</a>{{ 'login.signup_link.post'|translate }}</p>
+  @if (signupLinkVisible()) {
+    <p>{{ 'login.signup_link.pre'|translate }}<a
+      routerLink="/signup">{{ 'login.signup_link.mid'|translate }}</a>{{ 'login.signup_link.post'|translate }}</p>
+  }
 </div>

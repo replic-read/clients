@@ -13,7 +13,12 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { ExFormControl } from '../../validation/ExFormControl';
 import { Router, RouterLink } from '@angular/router';
-import { AuthenticationService_Token } from '@replic-read-clients/shared';
+import {
+  AuthenticationService_Token,
+  ServerConfigService_Token,
+} from '@replic-read-clients/shared';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   templateUrl: 'login.html',
@@ -43,6 +48,10 @@ export class LoginViewModel {
    */
   private readonly router = inject(Router);
   /**
+   * The server config service.
+   */
+  private readonly serverConfigService = inject(ServerConfigService_Token);
+  /**
    * The identifier form field.
    */
   protected readonly identifier = new ExFormControl('', []);
@@ -56,6 +65,15 @@ export class LoginViewModel {
    * The password visibility boolean state.
    */
   protected readonly passwordVisible = signal(false);
+  /**
+   * Whether to show the signup link.
+   */
+  protected readonly signupLinkVisible = toSignal(
+    this.serverConfigService
+      .getServerConfigObservable()
+      .pipe(map((res) => res?.allowAccountCreation ?? false)),
+    { initialValue: false }
+  );
 
   /**
    * Event handler for the login button.
