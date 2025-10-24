@@ -39,8 +39,9 @@ export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
       browser.storage.local.get([WebExtConfigService.KEY_BACKEND_URL])
     ).subscribe((results) => {
       const config: Config = {
-        backendUrl: (results[WebExtConfigService.KEY_BACKEND_URL] ??
-          null) as sring | null,
+        backendUrl: (results[WebExtConfigService.KEY_BACKEND_URL] ?? null) as
+          | string
+          | null,
       };
       this.config$.next(config);
       onDone();
