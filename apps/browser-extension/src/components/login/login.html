@@ -1,0 +1,33 @@
+<div class="content">
+  <h2>{{ 'login.title' | translate }}</h2>
+  <p>{{ 'login.description' | translate }}</p>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'login.identifier.label' | translate }}</mat-label>
+    <input [formControl]="identifier.control" matInput>
+
+    @if (identifier.control.invalid) {
+      <mat-error>{{ identifier.errorKey() | translate }}</mat-error>
+    }
+
+    <mat-icon matPrefix>person</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'login.password.label' | translate }}</mat-label>
+    <input [formControl]="password.control" matInput [type]="passwordVisible() ? 'text' : 'password'">
+
+    @if (password.control.invalid) {
+      <mat-error>{{ password.errorKey() | translate }}</mat-error>
+    }
+
+    <button matIconButton matSuffix (click)="togglePasswordVisibility()">
+      <mat-icon>{{ passwordVisible() ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <button class="form-field" matButton="filled" (click)="login()">{{ 'login.confirm.label' | translate }}</button>
+
+  <p>{{ 'login.signup_link.pre'|translate }}<a
+    routerLink="/signup">{{ 'login.signup_link.mid'|translate }}</a>{{ 'login.signup_link.post'|translate }}</p>
+</div>
