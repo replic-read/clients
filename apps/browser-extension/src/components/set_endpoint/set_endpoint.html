@@ -1,6 +1,8 @@
 <div class="content">
   <h2>{{ 'set_endpoint.title' | translate }}</h2>
 
+  <p>{{ 'set_endpoint.info.initial' |translate }}</p>
+
   @if (!wasEndpointSet() && !loggedIn()) {
     <p>{{ 'set_endpoint.info.initial' |translate }}</p>
   }
@@ -8,7 +10,7 @@
     <p>{{ 'set_endpoint.info.change_noauth' |translate }}</p>
   }
   @if (wasEndpointSet() && loggedIn()) {
-    <p>{{ 'et_endpoint.info.change_auth' |translate }}</p>
+    <p>{{ 'set_endpoint.info.change_auth' |translate }}</p>
   }
 
   <mat-form-field>
@@ -22,14 +24,9 @@
     <mat-icon matPrefix>cloud</mat-icon>
   </mat-form-field>
 
-  @if (wasEndpointSet()) {
-    <button matButton="filled">{{ 'set_endpoint.save.label.change' | translate }}</button>
-  }
-  @if (!wasEndpointSet()) {
-    <button matButton="filled" [disabled]="endpoint.control.invalid"
-            (click)="setEndpoint()">{{ 'set_endpoint.save.label.set' | translate }}
-    </button>
-  }
+  <button matButton="filled" [disabled]="endpoint.control.invalid"
+          (click)="setEndpoint()">{{ !wasEndpointSet() ? 'set_endpoint.save.label.set' : 'set_endpoint.save.label.change' | translate }}
+  </button>
 
   @if (loggedIn()) {
     <p>{{ 'set_endpoint.note' | translate }}</p>
