@@ -30,4 +30,12 @@ export class ExFormControl<T> {
 
     return this.control.errors![ExFormControl.ERROR_KEY] as string;
   }
+
+  /**
+   * Sets an error.
+   * @param key The new error.
+   */
+  setErrorKey(key: string) {
+    this.control.setErrors({ [ExFormControl.ERROR_KEY]: key });
+  }
 }
