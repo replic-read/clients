@@ -15,11 +15,8 @@ export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
     backendUrl: null,
   });
 
-  supply(): string {
-    const config = this.getConfig();
-    if (config.backendUrl == null) {
-      throw new Error('Requested backend url before it was set.');
-    } else return config.backendUrl;
+  supply(): string | null {
+    return this.getConfig().backendUrl;
   }
 
   getConfig(): Config {
@@ -42,9 +39,8 @@ export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
       browser.storage.local.get([WebExtConfigService.KEY_BACKEND_URL])
     ).subscribe((results) => {
       const config: Config = {
-        backendUrl: results[WebExtConfigService.KEY_BACKEND_URL] as
-          | string
-          | null,
+        backendUrl: (results[WebExtConfigService.KEY_BACKEND_URL] ??
+          null) as sring | null,
       };
       this.config$.next(config);
       onDone();
