@@ -6,8 +6,8 @@ import { Replic } from '../../model/models';
 import {
   BehaviorSubject,
   catchError,
+  combineLatest,
   firstValueFrom,
-  forkJoin,
   map,
   Observable,
   of,
@@ -153,7 +153,7 @@ export class NetworkReplicService implements ReplicService {
 
     const replics = await firstValueFrom(
       replicObs.pipe(
-        switchMap((responses) => forkJoin(createReplicFlows(responses)))
+        switchMap((responses) => combineLatest(createReplicFlows(responses)))
       )
     );
 
