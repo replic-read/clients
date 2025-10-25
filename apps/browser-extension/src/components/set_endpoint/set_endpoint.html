@@ -1,0 +1,32 @@
+<div class="content">
+  <h2>{{ 'set_endpoint.title' | translate }}</h2>
+
+  @if (!wasEndpointSet() && !loggedIn()) {
+    <p>{{ 'set_endpoint.info.initial' |translate }}</p>
+  }
+  @if (wasEndpointSet() && !loggedIn()) {
+    <p>{{ 'set_endpoint.info.change_noauth' |translate }}</p>
+  }
+  @if (wasEndpointSet() && loggedIn()) {
+    <p>{{ 'set_endpoint.info.change_auth' |translate }}</p>
+  }
+
+  <mat-form-field>
+    <mat-label>{{ 'set_endpoint.url.label' |translate }}</mat-label>
+    <input [formControl]="endpoint.control" matInput>
+
+    @if (endpoint.control.invalid) {
+      <mat-error>{{ endpoint.errorKey() |translate }}</mat-error>
+    }
+
+    <mat-icon matPrefix>cloud</mat-icon>
+  </mat-form-field>
+
+  <button matButton="filled" [disabled]="endpoint.control.invalid"
+          (click)="setEndpoint()">{{ (!wasEndpointSet() ? 'set_endpoint.save.label.set' : 'set_endpoint.save.label.change') | translate }}
+  </button>
+
+  @if (loggedIn()) {
+    <p>{{ 'set_endpoint.note' | translate }}</p>
+  }
+</div>

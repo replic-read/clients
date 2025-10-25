@@ -26,7 +26,7 @@
           }
         ],
         "styles": [
-          "apps/browser-extension/src/styles.css"
+          "apps/browser-extension/src/global.scss"
         ]
       },
       "configurations": {
@@ -43,10 +43,20 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "optimization": {
+            "styles": {
+              "inlineCritical": false
+            },
+            "fonts": false
+          }
         },
         "development": {
-          "optimization": false,
+          "optimization": {
+            "styles": {
+              "inlineCritical": false
+            }
+          },
           "extractLicenses": false,
           "sourceMap": true
         }

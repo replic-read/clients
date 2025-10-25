@@ -1,0 +1,22 @@
+<div class="content">
+  @if (hostUrl() === null) {
+    <div id="pre-error-container">
+      <p id="pre-error">{{ 'replic_created.error.not_found' | translate }}</p>
+    </div>
+  }
+  @if (hostUrl()) {
+    <h2>{{ 'replic_created.title' | translate }}</h2>
+    <p>{{ 'replic_created.description' | translate }}</p>
+
+    <span id="original-url-container">
+      <p id="original-url">{{ hostUrl() }}</p>
+      <button matIconButton [cdkCopyToClipboard]="hostUrl()!">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </span>
+
+    <button id="create-button" class="form-field" matButton="outlined" routerLink="/create-replic">
+      {{ 'replic_created.create.label' | translate }}
+    </button>
+  }
+</div>

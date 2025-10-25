@@ -7,7 +7,7 @@ export interface BaseUrlSupplier {
   /**
    * Returns the base url.
    */
-  supply: () => string;
+  supply: () => string | null;
 }
 
 export const BaseUrlSupplier_Token = new InjectionToken<BaseUrlSupplier>(

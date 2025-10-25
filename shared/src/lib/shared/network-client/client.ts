@@ -183,7 +183,7 @@ export interface NetworkClient {
   /**
    * Request to GET /api/v1/auth/request-email-verification/
    */
-  requestEmailVerification: (html: boolean | null) => Observable<void>;
+  requestEmailVerification: (html: boolean | null) => Observable<true>;
 
   /**
    * Request to POST /api/v1/admin/shutdown/

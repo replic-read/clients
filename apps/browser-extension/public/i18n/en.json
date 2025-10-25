@@ -1,0 +1,149 @@
+{
+  "media_mode": {
+    "all": "All",
+    "images": "Images",
+    "none": "None"
+  },
+  "validation": {
+    "credentials": "The provided credentials are invalid.",
+    "unique": {
+      "email": "Email is already registered",
+      "username": "Username is already taken."
+    },
+    "format": {
+      "url": "The endpoint must be a valid url.",
+      "email": "Enter a valid email address.",
+      "username": "Minimum 4 alphanumeric characters.",
+      "password": "Password must be at least 4 characters.",
+      "replic_password": "Password must be at least 4 characters."
+    }
+  },
+  "navigation": {
+    "logo": {
+      "alt": "Text-Logo"
+    }
+  },
+  "footer": {
+    "endpoint": "Endpoint: {{endpoint}}",
+    "about": "About replic-read"
+  },
+  "nav": {
+    "profile_menu": {
+      "logout": {
+        "label": "Logout"
+      },
+      "account": {
+        "label": "Account"
+      }
+    }
+  },
+  "set_endpoint": {
+    "title": "Configure endpoint",
+    "save": {
+      "label": {
+        "change": "Change endpoint",
+        "set": "Set endpoint"
+      }
+    },
+    "url": {
+      "label": "Endpoint",
+      "hint": "https://example.com"
+    },
+    "info": {
+      "initial": "In order to save your replics and your account information, you need to connect to a server. Enter below the URL of the endpoint you want to connect to.",
+      "change_noauth": "Change the endpoint of the server you want to connect to.",
+      "change_auth": "Change the endpoint of the server you want to connect to. Your data from this account will be saved, but not reachable until you change the endpoint back to the current one."
+    }
+  },
+  "login": {
+    "title": "Login",
+    "description": "Log into your existing account to save the replics you create.",
+    "identifier": {
+      "label": "Username or email"
+    },
+    "password": {
+      "label": "Password"
+    },
+    "confirm": {
+      "label": "Log in"
+    },
+    "signup_link": {
+      "pre": "Need to create an account first? ",
+      "mid": "Sign up",
+      "post": "."
+    }
+  },
+  "signup": {
+    "title": "Create account",
+    "description": "An account allows you to access your created replics in the web client. Furthermore, you have access to replics from other users with a higher access-level.",
+    "email": {
+      "label": "Email"
+    },
+    "username": {
+      "label": "Username"
+    },
+    "password": {
+      "label": "Password"
+    },
+    "confirm": {
+      "label": "Create account"
+    },
+    "login_link": {
+      "pre": "Already have an account? ",
+      "mid": "Log in",
+      "post": "."
+    }
+  },
+  "create_replic": {
+    "title": "Replicate page",
+    "info": "Replicate the website you have opened in this browser by clicking the button below. A link will be created that you can share for others to visit the same page.",
+    "error": {
+      "page_invalid": "The tab you have currently opened can not be replicated. Choose another tab to replicate.",
+      "quota_reached": "You cannot create any more replics as you have reached your quota.",
+      "too_big": "The page you want to replicate is too big."
+    },
+    "replicate": {
+      "label": "Replicate now"
+    },
+    "description": {
+      "label": "Description (optional)"
+    },
+    "expiration": {
+      "label": "Expiration"
+    },
+    "password": {
+      "enabled": "Secure with password",
+      "label": "Password"
+    },
+    "media_mode": {
+      "label": "Media mode"
+    }
+  },
+  "replic_created": {
+    "title": "Replic created",
+    "description": "The replic was successfully created. You can use the following link to access the page and share with other users:",
+    "create": {
+      "label": "Create another"
+    },
+    "error": {
+      "not_found": "An error occurred showing the replic."
+    }
+  },
+  "show_more": {
+    "label": {
+      "visible": "Show less",
+      "invisible": "Show more"
+    }
+  },
+  "not_verified": {
+    "title": "Account not verified",
+    "error": "An error occurred while trying to verify your email-address. Try again later.",
+    "description": {
+      "waiting": "To create replics, verify your email-address by requesting an email below and clicking the link sent to your address.",
+      "sent": "A message was sent to your email-address. Click the link to verify."
+    },
+    "request": {
+      "label": "Request a link"
+    }
+  }
+}

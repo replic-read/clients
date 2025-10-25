@@ -1,9 +1,13 @@
 import { ConfigService } from '../ConfigService';
 import { BaseUrlSupplier } from '@replic-read-clients/shared';
 import { Config } from '../Config';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import browser from 'webextension-polyfill';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
   private static readonly KEY_BACKEND_URL =
     'com.rere.client.active.key.backend_url';
@@ -11,11 +15,8 @@ export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
     backendUrl: null,
   });
 
-  supply(): string {
-    const config = this.getConfig();
-    if (config.backendUrl == null) {
-      throw new Error('Requested backend url before it was set.');
-    } else return config.backendUrl;
+  supply(): string | null {
+    return this.getConfig().backendUrl;
   }
 
   getConfig(): Config {
@@ -26,24 +27,22 @@ export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
     browser.storage.local.set({
       [WebExtConfigService.KEY_BACKEND_URL]: url,
     });
-    this.refresh(() => {});
+    this.refresh();
   }
 
   getConfig$(): Observable<Config> {
     return this.config$;
   }
 
-  refresh(onDone: () => void): void {
-    from(
-      browser.storage.local.get([WebExtConfigService.KEY_BACKEND_URL])
-    ).subscribe((results) => {
-      const config: Config = {
-        backendUrl: results[WebExtConfigService.KEY_BACKEND_URL] as
-          | string
-          | null,
-      };
-      this.config$.next(config);
-      onDone();
-    });
+  async refresh(): Promise<void> {
+    const results = await browser.storage.local.get([
+      WebExtConfigService.KEY_BACKEND_URL,
+    ]);
+    const config: Config = {
+      backendUrl: (results[WebExtConfigService.KEY_BACKEND_URL] ?? null) as
+        | string
+        | null,
+    };
+    this.config$.next(config);
   }
 }

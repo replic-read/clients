@@ -1,19 +1,20 @@
-import { Component, inject, Injectable, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { Component, inject, Injectable, OnInit, signal } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import {
+  Account,
+  AuthenticationService_Token,
   AuthTokenAccessor,
-  BaseUrlSupplier,
-  MediaMode,
-  ReplicService_Token,
+  ServerConfigService_Token,
 } from '@replic-read-clients/shared';
-
-@Injectable()
-export class BrowserBaseUrlSupplier implements BaseUrlSupplier {
-  supply(): string {
-    return 'http://localhost:8080';
-  }
-}
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import translationEN from '../../public/i18n/en.json';
+import { ProfileCircle } from '../components/profile_circle/profile_circle';
+import { NgOptimizedImage } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { ConfigService_Token } from '../model/ConfigService';
+import { MatRippleModule } from '@angular/material/core';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 
 @Injectable()
 export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
@@ -35,35 +36,86 @@ export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
 }
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [
+    RouterModule,
+    ProfileCircle,
+    NgOptimizedImage,
+    MatIcon,
+    MatIconButton,
+    TranslatePipe,
+    MatRippleModule,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem,
+  ],
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.css',
+  styleUrl: './app.scss',
 })
 export class App implements OnInit {
   protected title = 'browser-extension';
-  private readonly accService = inject(ReplicService_Token);
 
-  ngOnInit() {
-    const htmlContent = '<h1>Idiots!</h1>';
+  /**
+   * The current endpoint, or null.
+   */
+  protected endpoint: string | null = null;
+  /**
+   * The currently logged in account.
+   */
+  protected readonly account = signal<Account | null>(null);
+  /**
+   * Whether the back button should be visible.
+   */
+  protected readonly isBackButton = signal(false);
+  /**
+   * The translation service.
+   */
+  private readonly translation = inject(TranslateService);
+  /**
+   * The auth service.
+   */
+  private readonly auth = inject(AuthenticationService_Token);
+  /**
+   * The config service.
+   */
+  private readonly configService = inject(ConfigService_Token);
+  /**
+   * The server config service.
+   */
+  private readonly serverConfigService = inject(ServerConfigService_Token);
+  /**
+   * The router.
+   */
+  private readonly router = inject(Router);
 
-    this.accService
-      .createReplic(
-        htmlContent,
-        'https://google.com/',
-        MediaMode.NONE,
-        null,
-        null,
-        null
-      )
-      .subscribe((res) => {
-        if (res.isYes()) {
-          console.log(
-            `Got successful replic data: ${JSON.stringify(res.yes())}`
-          );
-        } else {
-          console.log(`Got replic error: ${JSON.stringify(res.no())}`);
-        }
+  constructor() {
+    this.translation.addLangs(['en', 'de']);
+    this.translation.setFallbackLang('en');
+    this.translation.setTranslation('en', translationEN);
+  }
+
+  goBack() {
+    this.router.navigate(['']);
+  }
+
+  logout() {
+    this.auth.logout();
+    this.goBack();
+  }
+
+  ngOnInit(): void {
+    this.configService
+      .getConfig$()
+      .subscribe((config) => (this.endpoint = config.backendUrl));
+
+    Promise.all([
+      this.configService.refresh(),
+      this.serverConfigService.refresh(),
+    ]).then(() => {
+      this.auth.me().subscribe((acc) => {
+        if (acc.isYes()) this.account.set(acc.yes());
+        else this.account.set(null);
       });
+    });
   }
 }

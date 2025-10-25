@@ -6,7 +6,8 @@ import { Replic } from '../../model/models';
 import {
   BehaviorSubject,
   catchError,
-  forkJoin,
+  combineLatest,
+  firstValueFrom,
   map,
   Observable,
   of,
@@ -20,11 +21,11 @@ import {
   ReplicState,
   SortDirection,
 } from '../../model/enums';
-import { RereError } from '../../model/error';
+import { CreateReplicError, RereError } from '../../model/error';
 import { Maybe, maybeNo, maybeYes } from '../../model/maybe';
 import { convertReplic } from './mapping';
 import { replicComparator } from './comparing';
-import { convertError } from '../../authentication/internal/mapping';
+import { convertCreateReplicError } from '../../authentication/internal/mapping';
 import { toMaybe } from '../../authentication/internal/NetworkAuthenticationService';
 
 @Injectable({
@@ -52,10 +53,9 @@ export class NetworkReplicService implements ReplicService {
    */
   private readonly replics$ = new BehaviorSubject<Replic[]>([]);
 
-  refresh(onDone: () => void) {
-    this.accountService.refresh(() => {
-      this.refreshReplics(onDone);
-    });
+  async refresh(): Promise<void> {
+    await this.accountService.refresh();
+    await this.refreshReplics();
   }
 
   getReplic(id: string): Observable<Replic | null> {
@@ -122,7 +122,7 @@ export class NetworkReplicService implements ReplicService {
     expiration: Date | null,
     description: string | null,
     password: string | null
-  ): Observable<Maybe<Replic, RereError>> {
+  ): Observable<Maybe<Replic, CreateReplicError>> {
     const createCall = () =>
       this.api
         .postReplic(
@@ -137,13 +137,13 @@ export class NetworkReplicService implements ReplicService {
         )
         .pipe(
           switchMap(this.populateReplicResponse),
-          toMaybe<Replic, RereError>(convertError)
+          toMaybe<Replic, CreateReplicError>(convertCreateReplicError)
         );
 
     return this.auth.safe(createCall);
   }
 
-  private refreshReplics(onDone: () => void): void {
+  private async refreshReplics(): Promise<void> {
     const replicObs = this.auth.safe(() =>
       this.api.getReplics(null, null, null, null, null)
     );
@@ -151,12 +151,13 @@ export class NetworkReplicService implements ReplicService {
     const createReplicFlows = (replics: ReplicResponse[]) =>
       replics.map(this.populateReplicResponse);
 
-    replicObs
-      .pipe(switchMap((responses) => forkJoin(createReplicFlows(responses))))
-      .subscribe((replics) => {
-        this.replics$.next(replics);
-        onDone();
-      });
+    const replics = await firstValueFrom(
+      replicObs.pipe(
+        switchMap((responses) => combineLatest(createReplicFlows(responses)))
+      )
+    );
+
+    this.replics$.next(replics);
   }
 
   private readonly populateReplicResponse = (

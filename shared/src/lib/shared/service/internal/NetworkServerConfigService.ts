@@ -1,5 +1,12 @@
 import { ServerConfigService } from '../ServerConfigService';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  firstValueFrom,
+  map,
+  Observable,
+  of,
+} from 'rxjs';
 import { AuthUserGroup, PeriodUnit } from '../../model/enums';
 import { Period, ReplicLimitConfig, ServerConfig } from '../../model/models';
 import { inject, Injectable } from '@angular/core';
@@ -8,6 +15,9 @@ import { NetworkClient_Token } from '../../network-client/client';
 import { ServerConfigRequest } from '../../network-client/requests';
 import { Duration } from 'luxon';
 import { convertConfig } from './mapping';
+import { convertError } from '../../authentication/internal/mapping';
+import { RereError } from '@replic-read-clients/shared';
+import { toMaybe } from '../../authentication/internal/NetworkAuthenticationService';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +35,7 @@ export class NetworkServerConfigService implements ServerConfigService {
 
   private readonly config$ = new BehaviorSubject<ServerConfig | null>(null);
 
-  getServerConfig(): ServerConfig {
+  getServerConfigOrThrow(): ServerConfig {
     if (this.config$.value == null) {
       throw new Error(
         'Tried to access the server config asynchronously before it was set.'
@@ -35,18 +45,27 @@ export class NetworkServerConfigService implements ServerConfigService {
     }
   }
 
+  getServerConfig(): ServerConfig | null {
+    return this.config$.value;
+  }
+
   getServerConfigObservable(): Observable<ServerConfig | null> {
     return this.config$;
   }
 
-  refresh(onDone: () => void) {
+  async refresh(): Promise<void> {
     const configCall = () =>
-      this.api.getServerConfig().pipe(map(convertConfig));
+      this.api
+        .getServerConfig()
+        .pipe(
+          map(convertConfig),
+          toMaybe<ServerConfig, RereError>(convertError)
+        );
 
-    this.auth.safe(configCall).subscribe((config) => {
-      this.config$.next(config);
-      onDone();
-    });
+    const maybe = await firstValueFrom(this.auth.safe(configCall));
+    if (maybe.isYes()) {
+      this.config$.next(maybe.yes());
+    }
   }
 
   setAccessReplicsGroup(group: AuthUserGroup): Observable<boolean> {
@@ -130,13 +149,15 @@ export class NetworkServerConfigService implements ServerConfigService {
     const configCall = () =>
       this.api
         .setServerConfig({
-          ...this.createRequest(this.getServerConfig()),
+          ...this.createRequest(this.getServerConfigOrThrow()),
           ...change,
         })
         .pipe(
           map(() => true),
           catchError(() => of(false))
         );
+
+    this.refresh();
 
     return this.auth.safe(configCall);
   }

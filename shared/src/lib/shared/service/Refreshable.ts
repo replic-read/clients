@@ -5,5 +5,5 @@ export interface Refreshable {
   /**
    * Refreshes the data.
    */
-  refresh(onDone: () => void): void;
+  refresh(): Promise<void>;
 }

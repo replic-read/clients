@@ -1,10 +1,6 @@
 import { AccountService } from '../AccountService';
 import { inject, Injectable } from '@angular/core';
 import { Account, PartialAccount } from '../../model/models';
-import {
-  AccountResponse,
-  PartialAccountResponse,
-} from '../../network-client/responses';
 import { AccountSort, AccountState, SortDirection } from '../../model/enums';
 import { AuthenticationService_Token } from '../../authentication/AuthenticationService';
 import { NetworkClient_Token } from '../../network-client/client';
@@ -13,6 +9,7 @@ import {
   BehaviorSubject,
   catchError,
   combineLatest,
+  firstValueFrom,
   map,
   Observable,
   of,
@@ -154,7 +151,7 @@ export class NetworkAccountService implements AccountService {
     return this.partialAccounts$.pipe(map(filter));
   }
 
-  refresh(onDone: () => void): void {
+  async refresh(): Promise<void> {
     const partialResponse$ = this.auth.safe(() =>
       this.api.getAccountsPartial(null, null, null, null)
     );
@@ -164,17 +161,13 @@ export class NetworkAccountService implements AccountService {
         .pipe(catchError(() => of([])))
     );
 
-    combineLatest([partialResponse$, fullResponse$]).subscribe(
-      ([partialResponse, fullResponse]: [
-        PartialAccountResponse[],
-        AccountResponse[]
-      ]) => {
-        this.partialAccounts$.next(
-          partialResponse.map(convertPartialAccountResponse)
-        );
-        this.fullAccounts$.next(fullResponse.map(convertAccountResponse));
-        onDone();
-      }
+    const [partialResponse, fullResponse] = await firstValueFrom(
+      combineLatest([partialResponse$, fullResponse$])
     );
+
+    this.partialAccounts$.next(
+      partialResponse.map(convertPartialAccountResponse)
+    );
+    this.fullAccounts$.next(fullResponse.map(convertAccountResponse));
   }
 }

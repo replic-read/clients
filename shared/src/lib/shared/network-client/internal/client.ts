@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import {
   AccountResponse,
   AccountWithTokensResponse,
@@ -208,9 +208,13 @@ export class NetworkClientImpl implements NetworkClient {
       new Blob([JSON.stringify(body)], { type: 'application/json' })
     );
 
-    form.set('file', new Blob([content], { type: 'text/html' }));
+    form.set('file', new File([content], 'file.html'));
 
-    return this.post('/replics/', form);
+    return this.client.post<ReplicResponse>(this.url('/replics/'), form, {
+      headers: {
+        Authorization: `Bearer ${this.authTokenAccessor.getAccess()}`,
+      },
+    });
   }
 
   postReport(
@@ -224,11 +228,11 @@ export class NetworkClientImpl implements NetworkClient {
     return this.post('/auth/refresh/', body);
   }
 
-  requestEmailVerification(html: boolean | null): Observable<void> {
-    return this.get(
+  requestEmailVerification(html: boolean | null): Observable<true> {
+    return this.get<void>(
       '/auth/request-email-verification/',
       buildParams({ html: html })
-    );
+    ).pipe(map(() => true as const));
   }
 
   resetUserPassword(
@@ -273,7 +277,9 @@ export class NetworkClientImpl implements NetworkClient {
    * Function that creates a full url with a partial url.
    */
   private readonly url = (relativePath: string) =>
-    `${this.baseUrlSupplier.supply()}/api/v1${relativePath}`;
+    `${
+      this.baseUrlSupplier.supply() ?? 'http://localhost:1'
+    }/api/v1${relativePath}`;
 
   /**
    * Gets the auth header.

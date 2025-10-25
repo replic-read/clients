@@ -1,0 +1,19 @@
+.content {
+  width: 100%;
+
+  display: grid;
+  place-items: center;
+}
+
+#show-more-container {
+  display: flex;
+  flex-direction: row;
+  padding: 6px;
+
+  border-radius: 16px;
+
+  * {
+    cursor: default;
+    user-select: none;
+  }
+}

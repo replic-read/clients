@@ -46,7 +46,7 @@ export interface AuthenticationService {
   /**
    * Requests an email-verification message.
    */
-  requestEmailVerification(): Observable<Maybe<void, RereError>>;
+  requestEmailVerification(): Observable<Maybe<true, RereError>>;
 
   /**
    * Submits an email verification token.
@@ -58,6 +58,16 @@ export interface AuthenticationService {
    * Gets data about the current account.
    */
   me(): Observable<Maybe<Account, RereError>>;
+
+  /**
+   * Gets the quote progress.
+   */
+  quota(): Observable<Maybe<number, RereError>>
+
+  /**
+   * Logs out of the current account.
+   */
+  logout(): Observable<Maybe<void, RereError>>;
 
   /**
    * Makes a safe authentication call.

@@ -1,0 +1,40 @@
+.content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px
+}
+
+#create-button {
+  align-self: center;
+}
+
+#original-url-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background: var(--mat-sys-surface-container-high);
+  padding: 8px 16px 8px 16px;
+  border-radius: 16px;
+}
+
+#original-url {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  color: var(--mat-sys-on-surface)
+}
+
+#pre-error-container {
+  height: 100%;
+
+  display: grid;
+  place-items: center;
+}
+
+#pre-error {
+  text-align: center;
+  color: var(--mat-sys-outline)
+}

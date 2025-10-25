@@ -59,12 +59,24 @@ export class NetworkAuthenticationService implements AuthenticationService {
   }
 
   me(): Observable<Maybe<Account, RereError>> {
-    return this.api
-      .getMe()
-      .pipe(
-        map(convertAccountResponse),
-        toMaybe<Account, RereError>(convertError)
+    const call = () =>
+      this.api
+        .getMe()
+        .pipe(
+          map(convertAccountResponse),
+          toMaybe<Account, RereError>(convertError)
+        );
+    return this.safe(call);
+  }
+
+  quota(): Observable<Maybe<number, RereError>> {
+    const call = () =>
+      this.api.getQuota().pipe(
+        map((res) => res.count),
+        toMaybe<number, RereError>(convertError)
       );
+
+    return this.safe(call);
   }
 
   refresh(): Observable<Maybe<Account, RereError>> {
@@ -78,10 +90,10 @@ export class NetworkAuthenticationService implements AuthenticationService {
       );
   }
 
-  requestEmailVerification(): Observable<Maybe<void, RereError>> {
+  requestEmailVerification(): Observable<Maybe<true, RereError>> {
     return this.api
       .requestEmailVerification(true)
-      .pipe(toMaybe<void, RereError>(convertError));
+      .pipe(toMaybe<true, RereError>(convertError));
   }
 
   signup(
@@ -111,6 +123,15 @@ export class NetworkAuthenticationService implements AuthenticationService {
       .submitEmailToken({
         email_token: token,
       })
+      .pipe(toMaybe<void, RereError>(convertError));
+  }
+
+  logout(): Observable<Maybe<void, RereError>> {
+    const refresh = this.authTokenAccessor.getRefresh();
+    this.authTokenAccessor.setRefresh('');
+    this.authTokenAccessor.setAccess('');
+    return this.api
+      .logout(refresh, false)
       .pipe(toMaybe<void, RereError>(convertError));
   }
 
