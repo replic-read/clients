@@ -124,5 +124,16 @@
       "visible": "Show less",
       "invisible": "Show more"
     }
+  },
+  "not_verified": {
+    "title": "Account not verified",
+    "error": "An error occurred while trying to verify your email-address. Try again later.",
+    "description": {
+      "waiting": "To create replics, verify your email-address by requesting an email below and clicking the link sent to your address.",
+      "sent": "A message was sent to your email-address. Click the link to verify."
+    },
+    "request": {
+      "label": "Request a link"
+    }
   }
 }

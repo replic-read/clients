@@ -1,0 +1,17 @@
+<div class="content">
+  <h2>{{ 'not_verified.title' | translate }}</h2>
+  @if (!wasEmailSent()) {
+    <p>{{ 'not_verified.description.waiting' | translate }}</p>
+
+    <button id="request-button" matButton="outlined" (click)="sendEmail()" [disabled]="wasEmailSent() === null">{{ 'not_verified.request.label'|translate }}</button>
+
+    @if (wasEmailSent() === null) {
+      <div id="error-container">
+        <p id="error">{{ 'not_verified.error' | translate }}</p>
+      </div>
+    }
+  } @else {
+    <p>{{ 'not_verified.description.sent' | translate }}</p>
+  }
+
+</div>

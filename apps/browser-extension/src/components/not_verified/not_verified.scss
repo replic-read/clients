@@ -1,0 +1,22 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#error-container {
+  align-self: center;
+
+  background: var(--mat-sys-error-container);
+  padding: 8px 16px 8px 16px;
+  border-radius: 16px;
+}
+
+#error {
+  color: var(--mat-sys-on-error-container);
+  text-align: center;
+}
+
+#request-button {
+  align-self: center;
+}
