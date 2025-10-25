@@ -1,8 +1,15 @@
 {
   "validation": {
     "credentials": "The provided credentials are invalid.",
+    "unique": {
+      "email": "Email is already registered",
+      "username": "Username is already taken."
+    },
     "format": {
-      "url": "The endpoint must be a valid url."
+      "url": "The endpoint must be a valid url.",
+      "email": "Enter a valid email address.",
+      "username": "Minimum 4 alphanumeric characters.",
+      "password": "Password must be at least 4 characters."
     }
   },
   "navigation": {
@@ -47,6 +54,27 @@
     "signup_link": {
       "pre": "Need to create an account first? ",
       "mid": "Sign up",
+      "post": "."
+    }
+  },
+  "signup": {
+    "title": "Create account",
+    "description": "An account allows you to access your created replics in the web client. Furthermore, you have access to replics from other users with a higher access-level.",
+    "email": {
+      "label": "Email"
+    },
+    "username": {
+      "label": "Username"
+    },
+    "password": {
+      "label": "Password"
+    },
+    "confirm": {
+      "label": "Create account"
+    },
+    "login_link": {
+      "pre": "Already have an account? ",
+      "mid": "Log in",
       "post": "."
     }
   }

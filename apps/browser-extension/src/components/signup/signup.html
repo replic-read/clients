@@ -1,0 +1,46 @@
+<div class="content">
+  <h2>{{ 'signup.title' | translate }}</h2>
+  <p>{{ 'signup.description' | translate }}</p>
+
+  <div class="form-container">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'signup.email.label' | translate }}</mat-label>
+      <input [formControl]="email.control" matInput>
+
+      @if (email.control.invalid) {
+        <mat-error>{{ email.errorKey() | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'signup.username.label' | translate }}</mat-label>
+        <input [formControl]="username.control" matInput>
+
+        @if (username.control.invalid) {
+          <mat-error>{{ username.errorKey() | translate }}</mat-error>
+        }
+
+        <mat-icon matPrefix>person</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'signup.password.label' | translate }}</mat-label>
+      <input [formControl]="password.control" matInput [type]="passwordVisible() ? 'text' : 'password'">
+
+      @if (password.control.invalid) {
+        <mat-error>{{ password.errorKey() | translate }}</mat-error>
+      }
+
+      <button matIconButton matSuffix (click)="togglePasswordVisibility()">
+        <mat-icon>{{ passwordVisible() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <button class="form-field" matButton="filled" (click)="signup()">{{ 'signup.confirm.label' | translate }}</button>
+
+  <p>{{ 'signup.login_link.pre'|translate }}<a
+    routerLink="/login">{{ 'signup.login_link.mid'|translate }}</a>{{ 'signup.login_link.post'|translate }}</p>
+</div>
