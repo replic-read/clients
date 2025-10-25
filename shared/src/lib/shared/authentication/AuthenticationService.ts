@@ -46,7 +46,7 @@ export interface AuthenticationService {
   /**
    * Requests an email-verification message.
    */
-  requestEmailVerification(): Observable<Maybe<void, RereError>>;
+  requestEmailVerification(): Observable<Maybe<true, RereError>>;
 
   /**
    * Submits an email verification token.

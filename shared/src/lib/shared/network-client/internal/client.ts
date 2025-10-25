@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import {
   AccountResponse,
   AccountWithTokensResponse,
@@ -228,11 +228,11 @@ export class NetworkClientImpl implements NetworkClient {
     return this.post('/auth/refresh/', body);
   }
 
-  requestEmailVerification(html: boolean | null): Observable<void> {
-    return this.get(
+  requestEmailVerification(html: boolean | null): Observable<true> {
+    return this.get<void>(
       '/auth/request-email-verification/',
       buildParams({ html: html })
-    );
+    ).pipe(map(() => true as const));
   }
 
   resetUserPassword(

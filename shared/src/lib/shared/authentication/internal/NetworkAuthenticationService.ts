@@ -90,10 +90,10 @@ export class NetworkAuthenticationService implements AuthenticationService {
       );
   }
 
-  requestEmailVerification(): Observable<Maybe<void, RereError>> {
+  requestEmailVerification(): Observable<Maybe<true, RereError>> {
     return this.api
       .requestEmailVerification(true)
-      .pipe(toMaybe<void, RereError>(convertError));
+      .pipe(toMaybe<true, RereError>(convertError));
   }
 
   signup(
