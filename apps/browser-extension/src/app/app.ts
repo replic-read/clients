@@ -2,24 +2,17 @@ import { Component, inject, Injectable, OnInit, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {
   Account,
-  AccountState,
   AuthenticationService_Token,
   AuthTokenAccessor,
-  AuthUserGroup,
-  RereError,
-  ServerConfig,
   ServerConfigService_Token,
 } from '@replic-read-clients/shared';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import translationEN from '../../public/i18n/en.json';
 import { ProfileCircle } from '../components/profile_circle/profile_circle';
-import { combineLatest } from 'rxjs';
 import { NgOptimizedImage } from '@angular/common';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ConfigService_Token } from '../model/ConfigService';
-import { Maybe } from '../../../../shared/src/lib/shared/model/maybe';
-import { Config } from '../model/Config';
 
 @Injectable()
 export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
@@ -122,59 +115,6 @@ export class App implements OnInit {
         if (acc.isYes()) this.account.set(acc.yes());
         else this.account.set(null);
       });
-
-      const config$ = this.configService.getConfig$();
-
-      const serverConfig$ =
-        this.serverConfigService.getServerConfigObservable();
-
-      const account$ = this.auth.me();
-
-      combineLatest([account$, serverConfig$, config$]).subscribe(
-        this.navigateToInitialPage
-      );
-    });
+    })
   }
-
-  private readonly navigateToInitialPage = ([account, serverConfig, config]: [
-    Maybe<Account, RereError>,
-    ServerConfig | null,
-    Config
-  ]) => {
-    let initialDestination: string | null = null;
-
-    const isAuth = account.isYes();
-    const isVerified =
-      account.isYes() && account.yes().accountState == AccountState.ACTIVE;
-
-    let canCreateReplic = false;
-    let shouldVerify = false;
-    let shouldLogin = false;
-    if (!isAuth) {
-      canCreateReplic = serverConfig?.createReplicsGroup == AuthUserGroup.ALL;
-      shouldLogin = !canCreateReplic;
-    } else if (isAuth && !isVerified) {
-      canCreateReplic =
-        serverConfig != null &&
-        [AuthUserGroup.ALL, AuthUserGroup.ACCOUNT].includes(
-          serverConfig.createReplicsGroup
-        );
-      shouldVerify = !canCreateReplic;
-    } else if (isVerified) {
-      canCreateReplic = true;
-    }
-
-    if (!config.backendUrl) initialDestination = 'endpoint-config';
-    else if (canCreateReplic) initialDestination = 'create-replic';
-    else if (shouldVerify) initialDestination = 'not-verified';
-    else if (shouldLogin) initialDestination = 'login';
-
-    if (initialDestination != null) {
-      this.router.navigate([initialDestination]);
-    } else {
-      console.warn(
-        `Invalid auth state was detected for user: canCreateReplic: ${canCreateReplic}, shouldVerify: ${shouldVerify}, shouldLogin: ${shouldLogin}`
-      );
-    }
-  };
 }

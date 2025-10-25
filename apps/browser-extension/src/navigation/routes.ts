@@ -5,7 +5,7 @@ import { LoginViewModel } from '../components/login/login';
 import { NotVerifiedViewModel } from '../components/not_verified/NotVerifiedViewModel';
 import { CreateReplicViewModel } from '../components/create_replic/CreateReplicViewModel';
 import { ReplicCreatedViewModel } from '../components/replic_created/ReplicCreatedViewModel';
-import { HomeViewModel } from '../components/home/HomeViewModel';
+import { HomeViewModel } from '../components/home/home';
 
 /**
  * The routes that are used in the app.
