@@ -32,6 +32,10 @@ export class RereValidators {
    * Validator for a password input.
    */
   public static readonly password = RereValidators.pattern(RereValidators.PASSWORD_REGEX, 'validation.format.password')
+  /**
+   * Validator for a replic password input.
+   */
+  public static readonly replicPassword = RereValidators.pattern(RereValidators.PASSWORD_REGEX, 'validation.format.replic_password')
 
   /**
    * Validator for a username input.
