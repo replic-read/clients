@@ -21,11 +21,11 @@ import {
   ReplicState,
   SortDirection,
 } from '../../model/enums';
-import { RereError } from '../../model/error';
+import { CreateReplicError, RereError } from '../../model/error';
 import { Maybe, maybeNo, maybeYes } from '../../model/maybe';
 import { convertReplic } from './mapping';
 import { replicComparator } from './comparing';
-import { convertError } from '../../authentication/internal/mapping';
+import { convertCreateReplicError } from '../../authentication/internal/mapping';
 import { toMaybe } from '../../authentication/internal/NetworkAuthenticationService';
 
 @Injectable({
@@ -122,7 +122,7 @@ export class NetworkReplicService implements ReplicService {
     expiration: Date | null,
     description: string | null,
     password: string | null
-  ): Observable<Maybe<Replic, RereError>> {
+  ): Observable<Maybe<Replic, CreateReplicError>> {
     const createCall = () =>
       this.api
         .postReplic(
@@ -137,7 +137,7 @@ export class NetworkReplicService implements ReplicService {
         )
         .pipe(
           switchMap(this.populateReplicResponse),
-          toMaybe<Replic, RereError>(convertError)
+          toMaybe<Replic, CreateReplicError>(convertCreateReplicError)
         );
 
     return this.auth.safe(createCall);

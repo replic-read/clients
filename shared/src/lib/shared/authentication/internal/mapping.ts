@@ -3,7 +3,7 @@ import { LoginError, SignupError } from '../errors';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccountResponse } from '../../network-client/responses';
 import { Account } from '../../model/models';
-import { RereError } from '../../model/error';
+import { CreateReplicError, RereError } from '../../model/error';
 import { Maybe, maybeNo } from '../../model/maybe';
 
 /**
@@ -39,6 +39,24 @@ export const convertSignupError = <T>(
   }
   return convertError(err);
 };
+
+/**
+ * Converts an HttpErrorResponse to a CreateReplicError.
+ */
+export const convertCreateReplicError = <T>(
+  err: unknown
+): Observable<Maybe<T, CreateReplicError>> => {
+  // This is guaranteed to work, if 'err' was passed from an angular http request.
+  const error = err as HttpErrorResponse;
+
+  if(error.status === 413) {
+    return of(maybeNo<T, CreateReplicError>('too_big'))
+  } else if(error.status === 429) {
+    return of(maybeNo<T, CreateReplicError>('quota_reached'))
+  }
+
+  return convertError(err)
+}
 
 /**
  * Converts an HttpErrorResponse to a RereError.

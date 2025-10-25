@@ -1,4 +1,12 @@
-import { MediaMode, Replic, ReplicSort, ReplicState, RereError, SortDirection } from '@replic-read-clients/shared';
+import {
+  CreateReplicError,
+  MediaMode,
+  Replic,
+  ReplicSort,
+  ReplicState,
+  RereError,
+  SortDirection
+} from '@replic-read-clients/shared';
 import { Observable } from 'rxjs';
 import { Maybe } from '../model/maybe';
 import { inject, InjectionToken } from '@angular/core';
@@ -65,7 +73,7 @@ export interface ReplicService extends Refreshable {
     expiration: Date | null,
     description: string | null,
     password: string | null
-  ): Observable<Maybe<Replic, RereError>>;
+  ): Observable<Maybe<Replic, CreateReplicError>>;
 }
 
 export const ReplicService_Token = new InjectionToken<ReplicService>(

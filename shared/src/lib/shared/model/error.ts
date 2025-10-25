@@ -4,3 +4,5 @@ export type RereError =
   | 'permission'
   | 'authentication'
   | 'unknown';
+
+export type CreateReplicError = RereError | 'too_big' | 'quota_reached'
