@@ -109,6 +109,16 @@
       "label": "Media mode"
     }
   },
+  "replic_created": {
+    "title": "Replic created",
+    "description": "The replic was successfully created. You can use the following link to access the page and share with other users:",
+    "create": {
+      "label": "Create another"
+    },
+    "error": {
+      "not_found": "An error occurred showing the replic."
+    }
+  },
   "show_more": {
     "label": {
       "visible": "Show less",
