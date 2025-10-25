@@ -60,6 +60,11 @@ export interface AuthenticationService {
   me(): Observable<Maybe<Account, RereError>>;
 
   /**
+   * Gets the quote progress.
+   */
+  quota(): Observable<Maybe<number, RereError>>
+
+  /**
    * Logs out of the current account.
    */
   logout(): Observable<Maybe<void, RereError>>;

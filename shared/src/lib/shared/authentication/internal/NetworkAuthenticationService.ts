@@ -69,6 +69,16 @@ export class NetworkAuthenticationService implements AuthenticationService {
     return this.safe(call);
   }
 
+  quota(): Observable<Maybe<number, RereError>> {
+    const call = () =>
+      this.api.getQuota().pipe(
+        map((res) => res.count),
+        toMaybe<number, RereError>(convertError)
+      );
+
+    return this.safe(call);
+  }
+
   refresh(): Observable<Maybe<Account, RereError>> {
     return this.api
       .refresh({ refresh_token: this.authTokenAccessor.getRefresh() ?? '' })
