@@ -13,6 +13,8 @@ import { NgOptimizedImage } from '@angular/common';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ConfigService_Token } from '../model/ConfigService';
+import { MatRippleModule } from '@angular/material/core';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 
 @Injectable()
 export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
@@ -41,10 +43,14 @@ export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
     MatIcon,
     MatIconButton,
     TranslatePipe,
+    MatRippleModule,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem,
   ],
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App implements OnInit {
   protected title = 'browser-extension';
@@ -92,16 +98,10 @@ export class App implements OnInit {
     this.router.navigate(['']);
   }
 
-  toggleAccountMenuVisibility() {}
-
   logout() {
     this.auth.logout();
     this.goBack();
   }
-
-  showAccount() {}
-
-  showAbout() {}
 
   ngOnInit(): void {
     this.configService

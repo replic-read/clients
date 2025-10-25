@@ -14,7 +14,16 @@
     </picture>
 
     @if (account()) {
-      <re-profile-circle id="profile-circle" [colorInt]="account()!.profileColor" />
+      <re-profile-circle
+        id="profile-circle"
+        [colorInt]="account()!.profileColor"
+        [matMenuTriggerFor]="menu"/>
+      <mat-menu #menu>
+        <button mat-menu-item id="logout-menu-item" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>{{ 'nav.profile_menu.logout.label' | translate }}</span>
+        </button>
+      </mat-menu>
     } @else {
       <div></div>
     }

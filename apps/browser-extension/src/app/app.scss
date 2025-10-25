@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 nav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -68,4 +70,8 @@ footer {
 
   height: 100%;
   width: 100%;
+}
+
+#logout-menu-item {
+  color: var(--mat-sys-error)
 }

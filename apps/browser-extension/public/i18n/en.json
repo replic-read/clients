@@ -27,6 +27,16 @@
     "endpoint": "Endpoint: {{endpoint}}",
     "about": "About replic-read"
   },
+  "nav": {
+    "profile_menu": {
+      "logout": {
+        "label": "Logout"
+      },
+      "account": {
+        "label": "Account"
+      }
+    }
+  },
   "set_endpoint": {
     "title": "Configure endpoint",
     "save": {
