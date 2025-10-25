@@ -7,6 +7,10 @@ import { ExFormControl } from './ExFormControl';
 export class RereValidators {
   private static readonly URL_FORMAT_KEY = 'validation.format.url';
 
+  private static readonly EMAIL_REGEX = '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$'
+  private static readonly USERNAME_REGEX = '^[A-Za-z0-9_]{4,32}$'
+  private static readonly PASSWORD_REGEX = '^[^\\s]{4,64}$'
+
   /**
    * Creates a validator for checking the format of a url.
    */
@@ -18,6 +22,21 @@ export class RereValidators {
       return this.errorRes(this.URL_FORMAT_KEY);
     }
   };
+
+  /**
+   * Validator for an email input.
+   */
+  public static readonly email = RereValidators.pattern(RereValidators.EMAIL_REGEX, 'validation.format.email')
+
+  /**
+   * Validator for a password input.
+   */
+  public static readonly password = RereValidators.pattern(RereValidators.PASSWORD_REGEX, 'validation.format.password')
+
+  /**
+   * Validator for a username input.
+   */
+  public static readonly username = RereValidators.pattern(RereValidators.USERNAME_REGEX, 'validation.format.username')
 
   /**
    * Helper function to create pattern validators.
