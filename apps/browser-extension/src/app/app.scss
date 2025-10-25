@@ -4,16 +4,30 @@ nav {
   align-content: stretch;
 
   width: 100%;
-  height: 56px;
   margin-bottom: 16px;
 
   border-bottom: var(--mat-sys-outline) 1px solid;
 
-  picture {
+  #text-logo {
     display: flex;
     flex-direction: row;
     align-items: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
+
+  #back-button {
+    display: grid;
+    place-items: center;
+  }
+
+  #profile-circle {
+    display: grid;
+    place-items: end;
+    padding: 6px;
+  }
+
+
 }
 
 main {

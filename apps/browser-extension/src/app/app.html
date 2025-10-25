@@ -14,7 +14,7 @@
     </picture>
 
     @if (account()) {
-      <re-profile-circle [colorInt]="account()!.profileColor" />
+      <re-profile-circle id="profile-circle" [colorInt]="account()!.profileColor" />
     } @else {
       <div></div>
     }
