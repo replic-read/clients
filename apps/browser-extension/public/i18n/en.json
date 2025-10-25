@@ -1,4 +1,9 @@
 {
+  "media_mode": {
+    "all": "All",
+    "images": "Images",
+    "none": "None"
+  },
   "validation": {
     "credentials": "The provided credentials are invalid.",
     "unique": {
@@ -9,7 +14,8 @@
       "url": "The endpoint must be a valid url.",
       "email": "Enter a valid email address.",
       "username": "Minimum 4 alphanumeric characters.",
-      "password": "Password must be at least 4 characters."
+      "password": "Password must be at least 4 characters.",
+      "replic_password": "Password must be at least 4 characters."
     }
   },
   "navigation": {
@@ -76,6 +82,32 @@
       "pre": "Already have an account? ",
       "mid": "Log in",
       "post": "."
+    }
+  },
+  "create_replic": {
+    "title": "Replicate page",
+    "info": "Replicate the website you have opened in this browser by clicking the button below. A link will be created that you can share for others to visit the same page.",
+    "replicate": {
+      "label": "Replicate now"
+    },
+    "description": {
+      "label": "Description (optional)"
+    },
+    "expiration": {
+      "label": "Expiration"
+    },
+    "password": {
+      "enabled": "Secure with password",
+      "label": "Password"
+    },
+    "media_mode": {
+      "label": "Media mode"
+    }
+  },
+  "show_more": {
+    "label": {
+      "visible": "Show less",
+      "invisible": "Show more"
     }
   }
 }

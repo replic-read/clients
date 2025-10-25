@@ -1,0 +1,21 @@
+<div class="content">
+
+  <div
+    matRipple
+    id="show-more-container"
+    tabindex="0"
+    role="button"
+    (click)="toggle()"
+    (keyup)="toggle()"
+    [matRippleCentered]="true"
+  >
+    <mat-icon>{{ visible() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+    <p>{{ (visible() ? 'show_more.label.visible' : 'show_more.label.invisible') | translate }}</p>
+    <mat-icon>{{ visible() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+  </div>
+
+    @if (visible()) {
+      <ng-content></ng-content>
+    }
+
+</div>
