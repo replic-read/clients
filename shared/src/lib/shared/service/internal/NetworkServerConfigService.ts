@@ -1,5 +1,12 @@
 import { ServerConfigService } from '../ServerConfigService';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  firstValueFrom,
+  map,
+  Observable,
+  of,
+} from 'rxjs';
 import { AuthUserGroup, PeriodUnit } from '../../model/enums';
 import { Period, ReplicLimitConfig, ServerConfig } from '../../model/models';
 import { inject, Injectable } from '@angular/core';
@@ -28,7 +35,7 @@ export class NetworkServerConfigService implements ServerConfigService {
 
   private readonly config$ = new BehaviorSubject<ServerConfig | null>(null);
 
-  getServerConfig(): ServerConfig {
+  getServerConfigOrThrow(): ServerConfig {
     if (this.config$.value == null) {
       throw new Error(
         'Tried to access the server config asynchronously before it was set.'
@@ -38,11 +45,15 @@ export class NetworkServerConfigService implements ServerConfigService {
     }
   }
 
+  getServerConfig(): ServerConfig | null {
+    return this.config$.value;
+  }
+
   getServerConfigObservable(): Observable<ServerConfig | null> {
     return this.config$;
   }
 
-  refresh(onDone: () => void) {
+  async refresh(): Promise<void> {
     const configCall = () =>
       this.api
         .getServerConfig()
@@ -51,12 +62,10 @@ export class NetworkServerConfigService implements ServerConfigService {
           toMaybe<ServerConfig, RereError>(convertError)
         );
 
-    this.auth.safe(configCall).subscribe((maybe) => {
-      if (maybe.isYes()) {
-        this.config$.next(maybe.yes());
-      }
-      onDone();
-    });
+    const maybe = await firstValueFrom(this.auth.safe(configCall));
+    if (maybe.isYes()) {
+      this.config$.next(maybe.yes());
+    }
   }
 
   setAccessReplicsGroup(group: AuthUserGroup): Observable<boolean> {
@@ -140,7 +149,7 @@ export class NetworkServerConfigService implements ServerConfigService {
     const configCall = () =>
       this.api
         .setServerConfig({
-          ...this.createRequest(this.getServerConfig()),
+          ...this.createRequest(this.getServerConfigOrThrow()),
           ...change,
         })
         .pipe(
@@ -148,7 +157,7 @@ export class NetworkServerConfigService implements ServerConfigService {
           catchError(() => of(false))
         );
 
-    this.refresh(() => {});
+    this.refresh();
 
     return this.auth.safe(configCall);
   }

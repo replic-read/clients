@@ -1,6 +1,5 @@
 import {
   ApplicationConfig,
-  inject,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -14,6 +13,8 @@ import { LocalStorageAuthTokenAccessor } from './app';
 import { routes } from '../navigation/routes';
 import { provideTranslateService } from '@ngx-translate/core';
 import { WebExtConfigService } from '../model/internal/WebExtConfigService';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { ConfigService_Token } from '../model/ConfigService';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,13 +22,19 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
+    provideNativeDateAdapter(),
     provideTranslateService({
       fallbackLang: 'en',
       lang: 'en',
     }),
+    WebExtConfigService,
     {
       provide: BaseUrlSupplier_Token,
-      useFactory: () => inject(WebExtConfigService),
+      useExisting: WebExtConfigService,
+    },
+    {
+      provide: ConfigService_Token,
+      useExisting: WebExtConfigService,
     },
     {
       provide: AuthTokenAccessor_Token,

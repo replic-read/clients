@@ -11,6 +11,7 @@ import { RereError } from '../../model/error';
 import {
   BehaviorSubject,
   combineLatest,
+  firstValueFrom,
   forkJoin,
   map,
   Observable,
@@ -79,15 +80,12 @@ export class NetworkReportService implements ReportService {
     return this.auth.safe(markCall);
   }
 
-  refresh(onDone: () => void): void {
-    // Replic service refreshes account service itself.
-    this.replicService.refresh(() => {
-      this.refreshReports();
-      onDone();
-    });
+  async refresh(): Promise<void> {
+    await this.replicService.refresh();
+    await this.refreshReports();
   }
 
-  private refreshReports() {
+  private async refreshReports(): Promise<void> {
     const reports$ = this.auth.safe(() =>
       this.api.getReports(null, null, null, null)
     );
@@ -98,8 +96,8 @@ export class NetworkReportService implements ReportService {
     const populatedReports$ = reports$.pipe(
       switchMap((reports) => forkJoin(createFlows(reports)))
     );
-
-    populatedReports$.subscribe((reports) => this.reports$.next(reports));
+    const populatedReports = await firstValueFrom(populatedReports$);
+    this.reports$.next(populatedReports);
   }
 
   private readonly populateReportResponse = (

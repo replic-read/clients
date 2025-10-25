@@ -74,7 +74,7 @@ export class SetEndpointViewModel implements OnInit {
   }
 
   ngOnInit(): void {
-    this.configService.refresh(() => {
+    this.configService.refresh().then(() => {
       this.endpoint.control.setValue(
         this.configService.getConfig().backendUrl ?? ''
       );

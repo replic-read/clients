@@ -1,8 +1,7 @@
 import { Config } from './Config';
 import { Observable } from 'rxjs';
 import { Refreshable } from '@replic-read-clients/shared';
-import { inject, InjectionToken } from '@angular/core';
-import { WebExtConfigService } from './internal/WebExtConfigService';
+import { InjectionToken } from '@angular/core';
 
 /**
  * Service for the client side config.
@@ -24,10 +23,4 @@ export interface ConfigService extends Refreshable {
   setBackendUrl(url: string): void;
 }
 
-export const ConfigService_Token = new InjectionToken<ConfigService>(
-  'ConfigService',
-  {
-    providedIn: 'root',
-    factory: () => inject(WebExtConfigService),
-  }
-);
+export const ConfigService_Token = new InjectionToken<ConfigService>('ConfigService');

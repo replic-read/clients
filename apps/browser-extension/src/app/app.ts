@@ -108,13 +108,14 @@ export class App implements OnInit {
       .getConfig$()
       .subscribe((config) => (this.endpoint = config.backendUrl));
 
-    this.configService.refresh(() => {
-      this.serverConfigService.refresh(() => {});
-
+    Promise.all([
+      this.configService.refresh(),
+      this.serverConfigService.refresh(),
+    ]).then(() => {
       this.auth.me().subscribe((acc) => {
         if (acc.isYes()) this.account.set(acc.yes());
         else this.account.set(null);
       });
-    })
+    });
   }
 }

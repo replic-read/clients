@@ -7,7 +7,9 @@ import { NetworkServerConfigService } from './internal/NetworkServerConfigServic
  * Provides access to the config of the server.
  */
 export interface ServerConfigService extends Refreshable {
-  getServerConfig(): ServerConfig;
+  getServerConfig(): ServerConfig | null;
+
+  getServerConfigOrThrow(): ServerConfig;
 
   /**
    * Gets the server config.

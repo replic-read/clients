@@ -1,7 +1,7 @@
 import { ConfigService } from '../ConfigService';
 import { BaseUrlSupplier } from '@replic-read-clients/shared';
 import { Config } from '../Config';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import browser from 'webextension-polyfill';
 import { Injectable } from '@angular/core';
 
@@ -27,24 +27,22 @@ export class WebExtConfigService implements ConfigService, BaseUrlSupplier {
     browser.storage.local.set({
       [WebExtConfigService.KEY_BACKEND_URL]: url,
     });
-    this.refresh(() => {});
+    this.refresh();
   }
 
   getConfig$(): Observable<Config> {
     return this.config$;
   }
 
-  refresh(onDone: () => void): void {
-    from(
-      browser.storage.local.get([WebExtConfigService.KEY_BACKEND_URL])
-    ).subscribe((results) => {
-      const config: Config = {
-        backendUrl: (results[WebExtConfigService.KEY_BACKEND_URL] ?? null) as
-          | string
-          | null,
-      };
-      this.config$.next(config);
-      onDone();
-    });
+  async refresh(): Promise<void> {
+    const results = await browser.storage.local.get([
+      WebExtConfigService.KEY_BACKEND_URL,
+    ]);
+    const config: Config = {
+      backendUrl: (results[WebExtConfigService.KEY_BACKEND_URL] ?? null) as
+        | string
+        | null,
+    };
+    this.config$.next(config);
   }
 }

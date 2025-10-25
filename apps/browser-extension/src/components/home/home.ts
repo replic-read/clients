@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { combineLatest } from 'rxjs';
 import {
   Account,
   AccountState,
@@ -42,20 +41,19 @@ export class HomeViewModel implements OnInit {
   private readonly router = inject(Router);
 
   ngOnInit(): void {
-    this.configService.refresh(() => {
-      this.serverConfigService.refresh(() => {});
+    this.configService.refresh().then(() => {
+      this.serverConfigService.refresh().then(() => {
+        const config = this.configService.getConfig();
 
-      const config$ = this.configService.getConfig$();
+        const serverConfig = this.serverConfigService.getServerConfig();
 
-      const serverConfig$ =
-        this.serverConfigService.getServerConfigObservable();
+        const account$ = this.auth.me();
 
-      const account$ = this.auth.me();
-
-      combineLatest([account$, serverConfig$, config$]).subscribe(
-        this.navigateToInitialPage
-      );
-    });
+        account$.subscribe((account) => {
+          this.navigateToInitialPage([account, serverConfig, config]);
+        });
+      })
+    })
   }
 
   private readonly navigateToInitialPage = ([account, serverConfig, config]: [

@@ -208,9 +208,13 @@ export class NetworkClientImpl implements NetworkClient {
       new Blob([JSON.stringify(body)], { type: 'application/json' })
     );
 
-    form.set('file', new Blob([content], { type: 'text/html' }));
+    form.set('file', new File([content], 'file.html'));
 
-    return this.post('/replics/', form);
+    return this.client.post<ReplicResponse>(this.url('/replics/'), form, {
+      headers: {
+        Authorization: `Bearer ${this.authTokenAccessor.getAccess()}`,
+      },
+    });
   }
 
   postReport(

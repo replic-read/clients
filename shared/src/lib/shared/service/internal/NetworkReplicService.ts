@@ -6,6 +6,7 @@ import { Replic } from '../../model/models';
 import {
   BehaviorSubject,
   catchError,
+  firstValueFrom,
   forkJoin,
   map,
   Observable,
@@ -52,10 +53,9 @@ export class NetworkReplicService implements ReplicService {
    */
   private readonly replics$ = new BehaviorSubject<Replic[]>([]);
 
-  refresh(onDone: () => void) {
-    this.accountService.refresh(() => {
-      this.refreshReplics(onDone);
-    });
+  async refresh(): Promise<void> {
+    await this.accountService.refresh();
+    await this.refreshReplics();
   }
 
   getReplic(id: string): Observable<Replic | null> {
@@ -143,7 +143,7 @@ export class NetworkReplicService implements ReplicService {
     return this.auth.safe(createCall);
   }
 
-  private refreshReplics(onDone: () => void): void {
+  private async refreshReplics(): Promise<void> {
     const replicObs = this.auth.safe(() =>
       this.api.getReplics(null, null, null, null, null)
     );
@@ -151,12 +151,13 @@ export class NetworkReplicService implements ReplicService {
     const createReplicFlows = (replics: ReplicResponse[]) =>
       replics.map(this.populateReplicResponse);
 
-    replicObs
-      .pipe(switchMap((responses) => forkJoin(createReplicFlows(responses))))
-      .subscribe((replics) => {
-        this.replics$.next(replics);
-        onDone();
-      });
+    const replics = await firstValueFrom(
+      replicObs.pipe(
+        switchMap((responses) => forkJoin(createReplicFlows(responses)))
+      )
+    );
+
+    this.replics$.next(replics);
   }
 
   private readonly populateReplicResponse = (
