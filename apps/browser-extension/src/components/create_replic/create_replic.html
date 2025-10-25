@@ -1,0 +1,63 @@
+<div class="content">
+  @if (preError()) {
+    <div class="content-pre-error">
+      <p class="pre-error">{{ preError() | translate }}</p>
+    </div>
+  } @else if (preError() === null) {
+    <h2>{{ 'create_replic.title' | translate }}</h2>
+    <p>{{ 'create_replic.info' | translate }}</p>
+
+    <button id="replicate-button" matButton="filled" (click)="replicate()">
+      <mat-icon>backup</mat-icon>
+      {{ 'create_replic.replicate.label' | translate }}
+    </button>
+
+    @if (postError()) {
+      <div id="post-error-container">
+        <p id="post-error">{{ postError()|translate }}</p>
+      </div>
+    }
+
+    <re-show-more>
+
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'create_replic.description.label' | translate }}</mat-label>
+          <input [formControl]="description.control" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'create_replic.expiration.label' | translate }}</mat-label>
+          <input matInput [matDatepicker]="picker" [formControl]="expiration.control" [min]="minExpiration"
+                 [max]="maxExpiration()">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-checkbox [formControl]="isPassword.control">{{ 'create_replic.password.enabled' | translate }}
+        </mat-checkbox>
+        @if (isPassword.control.value ?? false) {
+          <mat-form-field id="password-input" appearance="outline">
+            <mat-label>{{ 'create_replic.password.label' | translate }}</mat-label>
+            <input [formControl]="password.control" matInput>
+
+            @if (password.control.invalid) {
+              <mat-error>{{ password.errorKey() | translate }}</mat-error>
+            }
+          </mat-form-field>
+        }
+
+        <mat-form-field>
+          <mat-label>{{ 'create_replic.media_mode.label' | translate }}</mat-label>
+          <mat-select [formControl]="mediaMode.control">
+            @for (mediaMode of mediaModeOptions; track mediaMode) {
+              <mat-option [value]="mediaMode">{{ mediaMode | mediaModeKey | translate }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+    </re-show-more>
+  }
+</div>

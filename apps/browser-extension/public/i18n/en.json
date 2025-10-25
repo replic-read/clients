@@ -87,6 +87,11 @@
   "create_replic": {
     "title": "Replicate page",
     "info": "Replicate the website you have opened in this browser by clicking the button below. A link will be created that you can share for others to visit the same page.",
+    "error": {
+      "page_invalid": "The tab you have currently opened can not be replicated. Choose another tab to replicate.",
+      "quota_reached": "You cannot create any more replics as you have reached your quota.",
+      "too_big": "The page you want to replicate is too big."
+    },
     "replicate": {
       "label": "Replicate now"
     },
